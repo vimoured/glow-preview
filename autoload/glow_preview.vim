@@ -10,10 +10,6 @@ function! s:WeztermBin() abort
   return ''
 endfunction
 
-" ---------------------------------------------------------------------
-" Glow preview mode toggle
-" ---------------------------------------------------------------------
-
 function! glow_preview#toggle_live() abort
   let g:glow_preview_live = !g:glow_preview_live
 
@@ -23,10 +19,6 @@ function! glow_preview#toggle_live() abort
     echo "Glow preview: STATIC"
   endif
 endfunction
-
-" ---------------------------------------------------------------------
-" Static preview
-" ---------------------------------------------------------------------
 
 function! s:CloseGlowBuffers() abort
   for b in getbufinfo()
@@ -43,13 +35,9 @@ function! s:GlowStaticPreview() abort
   setlocal filetype=glow
   file __glow_preview
 
-  " jump back
   wincmd p
 endfunction
 
-" ---------------------------------------------------------------------
-" Live preview (wezterm)
-" ---------------------------------------------------------------------
 function! s:GlowLivePreviewWezterm() abort
   let l:filename = shellescape(expand('%:p'))
   " It isn't easy to switch back to the original pane back again in wezterm on
@@ -66,18 +54,11 @@ function! s:GlowLivePreviewWezterm() abort
         \ )
 endfunction
 
-" ---------------------------------------------------------------------
-" Live preview (tmux)
-" ---------------------------------------------------------------------
-
 function! s:GlowLivePreviewTmux() abort
   let l:cmd = 'echo ' . shellescape(expand('%:p')) . ' | entr -c glow -t -l /_'
   call system('tmux split-window -d -h ' . shellescape(l:cmd))
 endfunction
 
-" ---------------------------------------------------------------------
-" Dispatcher
-" ---------------------------------------------------------------------
 function! glow_preview#preview() abort
   if !executable('glow')
     echohl ErrorMsg
@@ -104,6 +85,5 @@ function! glow_preview#preview() abort
     endif
   endif
 
-  " fallback/default
   call s:GlowStaticPreview()
 endfunction
