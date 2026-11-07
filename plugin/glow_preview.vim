@@ -1,10 +1,5 @@
 " glow-preview: preview the current markdown file with glow, in a terminal
 " split (static) or in a tmux / WezTerm pane that re-renders on save (live).
-if exists('g:loaded_glow_preview')
-  finish
-endif
-let g:loaded_glow_preview = 1
-
 " Live preview (needs entr) instead of a static terminal split
 let g:glow_preview_live = get(g:, 'glow_preview_live', 0)
 
