@@ -55,8 +55,11 @@ function! s:GlowLivePreviewWezterm() abort
 endfunction
 
 function! s:GlowLivePreviewTmux() abort
+  if exists('s:tmux_pane')
+    call system('tmux kill-pane -t ' . s:tmux_pane)
+  endif
   let l:cmd = 'echo ' . shellescape(expand('%:p')) . ' | entr -c glow -t -l /_'
-  call system('tmux split-window -d -h ' . shellescape(l:cmd))
+  let s:tmux_pane = trim(system('tmux split-window -d -h -P -F "#{pane_id}" ' . shellescape(l:cmd)))
 endfunction
 
 function! glow_preview#preview() abort
